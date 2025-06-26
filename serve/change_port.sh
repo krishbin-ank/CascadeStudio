@@ -19,7 +19,7 @@ if [[ $# -ne 1 ]]; then
     exit 1
 fi
 
-APP_PORT="$1"
+export APP_PORT="$1"
 
 # Check if the template file exists
 if [[ ! -f "$TEMPLATE_FILE" ]]; then

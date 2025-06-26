@@ -1,0 +1,14 @@
+server {
+    listen ${APP_PORT};
+    server_name localhost;
+    root /openhands/.cascade-studio;
+    index index.html;
+
+    gzip on;
+    gzip_types application/javascript application/wasm text/css;
+    gzip_min_length 256;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

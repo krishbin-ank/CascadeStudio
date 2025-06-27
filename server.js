@@ -26,7 +26,9 @@ app.use(helmet({
       objectSrc: ["'none'"],
       mediaSrc: ["'self'", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
       frameSrc: ["'self'", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
-      workerSrc: ["'self'", "blob:", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"]
+      workerSrc: ["'self'", "blob:", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
+      scriptSrcAttr: ["'unsafe-inline'"],
+      scriptSrcElem: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "blob:"]
     }
   }
 }));

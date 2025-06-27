@@ -26,7 +26,7 @@ importScripts(
   '../../node_modules/three/build/three.min.js',
   './CascadeStudioStandardLibrary.js',
   './CascadeStudioShapeToMesh.js',
-  '../../node_modules/opencascade.js/dist/opencascade.wasm.js',
+  '../../node_modules/opencascade.js/dist/opencascade.wasm.worker.js',
   '../../node_modules/opentype.js/dist/opentype.min.js',
   '../../node_modules/potpack/index.js');
 

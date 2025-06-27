@@ -17,16 +17,16 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-eval'", "'unsafe-inline'", "blob:"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "blob:"],
-      connectSrc: ["'self'", "blob:"],
-      fontSrc: ["'self'", "data:"],
+      defaultSrc: ["'self'", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
+      scriptSrc: ["'self'", "'unsafe-eval'", "'unsafe-inline'", "blob:", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
+      imgSrc: ["'self'", "data:", "blob:", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
+      connectSrc: ["'self'", "blob:", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
+      fontSrc: ["'self'", "data:", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
       objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'none'"],
-      workerSrc: ["'self'", "blob:"]
+      mediaSrc: ["'self'", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
+      frameSrc: ["'self'", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"],
+      workerSrc: ["'self'", "blob:", "https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev", "https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev"]
     }
   }
 }));
@@ -34,7 +34,7 @@ app.use(helmet({
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://work-1-ajxmeubamkzvlzzy.prod-runtime.all-hands.dev', 'https://work-2-ajxmeubamkzvlzzy.prod-runtime.all-hands.dev']
+    ? ['https://work-1-frbrgvugdqhxyair.prod-runtime.all-hands.dev', 'https://work-2-frbrgvugdqhxyair.prod-runtime.all-hands.dev']
     : true,
   credentials: true
 }));
@@ -65,13 +65,33 @@ app.use('/api', apiRoutes);
 // Serve static files (the original CascadeStudio web app)
 app.use(express.static('.', {
   index: 'index.html',
+  maxAge: '1d', // Cache static assets for 1 day
   setHeaders: (res, path) => {
     // Set proper MIME types for specific file extensions
     if (path.endsWith('.wasm')) {
       res.setHeader('Content-Type', 'application/wasm');
     } else if (path.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
+    } else if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    } else if (path.endsWith('.html')) {
+      res.setHeader('Content-Type', 'text/html');
+    } else if (path.endsWith('.json')) {
+      res.setHeader('Content-Type', 'application/json');
+    } else if (path.endsWith('.png')) {
+      res.setHeader('Content-Type', 'image/png');
+    } else if (path.endsWith('.jpg') || path.endsWith('.jpeg')) {
+      res.setHeader('Content-Type', 'image/jpeg');
+    } else if (path.endsWith('.svg')) {
+      res.setHeader('Content-Type', 'image/svg+xml');
+    } else if (path.endsWith('.ico')) {
+      res.setHeader('Content-Type', 'image/x-icon');
     }
+    
+    // Add CORS headers for static assets
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   }
 }));
 
